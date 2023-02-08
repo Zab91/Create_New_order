@@ -3,9 +3,18 @@ const axios = require("axios");
 const { response } = require("express");
 const { orderCart } = require("../controllers");
 var request = require("request");
+const { multerUpload } = require("../helper/multer");
 
-router.post("/createOrderCart", orderCart.createOrderCart);
-
+router.post("/createOrder", orderCart.createOrderCart);
+router.post(
+  "/payment/:inv",
+  multerUpload.single("file"),
+  orderCart.paymentMethod,
+);
+router.patch("/:inv", orderCart.cancelPayment);
+router.get("/all/:id", orderCart.findAllOrder);
+router.get("findOrder/:id", orderCart.findIdOrder);
+router.get("detail/:id", orderCart.getOrderDetail);
 router.post("/cost", async function (req, res) {
   try {
     const { origin, destination, weight, courier } = req.body;

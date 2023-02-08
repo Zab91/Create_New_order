@@ -21,6 +21,7 @@ import { faHouse } from "@fortawesome/free-solid-svg-icons";
 import pesanan from "../assets/pesanan.svg";
 import keranjang from "../assets/keranjang.svg";
 import user from "../assets/user.svg";
+import TransactionList from "./listOrder";
 import { useSelector, useDispatch } from "react-redux";
 import { logout } from "../redux/userSlice";
 import { cartDel } from "../redux/cartSlice";

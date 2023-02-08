@@ -23,6 +23,8 @@ import { UpdateAddress } from "./components/updateAddress";
 import SelectAddress from "./components/addressSelect";
 import SendEmailPassword from "./pages/SendEmailPage";
 import ResetPassword from "./pages/ResetPassword";
+import PaymentMethod from "./components/payment";
+import TransactionList from "./components/listOrder";
 
 //keeplogin url
 const urlKeepLogin = `http://localhost:8000/usersLogin/keepLogin`;
@@ -129,6 +131,24 @@ function App() {
             element={
               <>
                 <CartDetail />
+                <Navbar />
+              </>
+            }
+          />
+          <Route
+            path="/payment"
+            element={
+              <>
+                <PaymentMethod />
+                <Navbar />
+              </>
+            }
+          />
+          <Route
+            path="/listTransaction"
+            element={
+              <>
+                <TransactionList />
                 <Navbar />
               </>
             }
