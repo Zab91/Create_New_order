@@ -81,145 +81,138 @@ export const LoginPage = () => {
       });
     }
   };
-  const myStyle = {
-    maxWidth: "506px",
-    heigth: "auto",
-    backgroundColor: "white",
-    margin: "auto",
-  };
-  const bodyStyle = {
-    backgroundColor: "grey",
-    width: "auto",
-    height: "auto",
-  };
   return move ? (
     <Navigate
       to="/"
       replace={true}
     />
   ) : (
-    <div style={bodyStyle}>
-      <div style={myStyle}>
-        <Formik
-          initialValues={{
-            password: "",
-            email: "",
-          }}
-          validationSchema={loginSchema}
-          onSubmit={values => {
-            onLogin(values);
-          }}
-        >
-          {props => {
-            console.log(props);
-            return (
-              <Flex
-                minH={"100vh"}
-                algin={"center"}
-                justify={"center"}
-                bgGradient="linear(to-t, #ebf5e9, #ffff)"
-                maxWidth={"506px"}
+    <>
+      <Formik
+        initialValues={{
+          password: "",
+          email: "",
+        }}
+        validationSchema={loginSchema}
+        onSubmit={values => {
+          onLogin(values);
+        }}
+      >
+        {props => {
+          console.log(props);
+          return (
+            <Flex
+              minH={"100vh"}
+              algin={"center"}
+              justify={"center"}
+              bgGradient="linear(to-t, #ebf5e9, #ffff)"
+              maxWidth={"506px"}
+            >
+              <Stack
+                spacing={4}
+                mx={"auto"}
+                maxW={"lg"}
+                py={3}
+                px={3}
               >
-                <Stack
-                  spacing={4}
-                  mx={"auto"}
-                  maxW={"lg"}
-                  py={3}
-                  px={3}
-                >
-                  <Image
-                    src={logo}
-                    maxW="160px"
-                    mb="5"
-                    mx="auto"
-                  />
-                  <Stack align={"center"}>
-                    <Heading
-                      fontSize={"2xl"}
-                      color="black"
-                    >
-                      Log in Account
-                    </Heading>
-                  </Stack>
-                  <Box
-                    rounded={"lg"}
-                    bg={"white"}
-                    boxShadow={"lg"}
-                    p={8}
+                <Image
+                  src={logo}
+                  maxW="160px"
+                  mb="5"
+                  mx="auto"
+                />
+                <Stack align={"center"}>
+                  <Heading
+                    fontSize={"2xl"}
+                    color="black"
                   >
-                    <Form>
-                      <Stack spacing={4}>
-                        <FormControl id="email">
-                          <FormLabel>Email</FormLabel>
-                          <Input
-                            ref={email}
-                            name="email"
-                          />
-                          <ErrorMessage
-                            name="email"
-                            component="div"
-                            style={{ color: "red" }}
-                          />
-                        </FormControl>
-                        <Stack>
-                          <FormControl id="password">
-                            <FormLabel>Password</FormLabel>
-                            <InputGroup>
-                              <Input
-                                ref={password}
-                                name="password"
-                                type={show ? "text" : "password"}
-                              />
-                              <ErrorMessage
-                                name="password"
-                                component="div"
-                                style={{ color: "red" }}
-                              />
-                              <InputRightElement h={"full"}>
-                                <Button
-                                  variant={"ghost"}
-                                  onClick={handleClick}
-                                >
-                                  {show ? <ViewIcon /> : <ViewOffIcon />}
-                                </Button>
-                              </InputRightElement>
-                            </InputGroup>
-                          </FormControl>
-                        </Stack>
-                        <Stack spacing={2}>
-                          <Stack
-                            direction={{ base: "column", sm: "row" }}
-                            align={"start"}
-                            justify={"space-between"}
-                          ></Stack>
-                          <Link
-                            color={"blue.400"}
-                            href="/register"
-                          >
-                            Dont have account?
-                          </Link>
-                        </Stack>
-                        <Button
-                          bg={"yellow.400"}
-                          color={"black"}
-                          _hover={{
-                            bg: "yellow.300",
-                          }}
-                          onClick={onLogin}
-                          type="submit"
-                        >
-                          Sign in
-                        </Button>
-                        {/* <Button isLoading bg={"blue.300"} color={"white"} /> */}
-                      </Stack>
-                    </Form>
-                  </Box>
+                    Log in Account
+                  </Heading>
                 </Stack>
-              </Flex>
-            );
-          }}
-        </Formik>
-      </div>
-    </div>
+                <Box
+                  rounded={"lg"}
+                  bg={"white"}
+                  boxShadow={"lg"}
+                  p={8}
+                >
+                  <Form>
+                    <Stack spacing={4}>
+                      <FormControl id="email">
+                        <FormLabel>Email</FormLabel>
+                        <Input
+                          ref={email}
+                          name="email"
+                        />
+                        <ErrorMessage
+                          name="email"
+                          component="div"
+                          style={{ color: "red" }}
+                        />
+                      </FormControl>
+                      <Stack>
+                        <FormControl id="password">
+                          <FormLabel>Password</FormLabel>
+                          <InputGroup>
+                            <Input
+                              ref={password}
+                              name="password"
+                              type={show ? "text" : "password"}
+                            />
+                            <ErrorMessage
+                              name="password"
+                              component="div"
+                              style={{ color: "red" }}
+                            />
+                            <InputRightElement h={"full"}>
+                              <Button
+                                variant={"ghost"}
+                                onClick={handleClick}
+                              >
+                                {show ? <ViewIcon /> : <ViewOffIcon />}
+                              </Button>
+                            </InputRightElement>
+                          </InputGroup>
+                        </FormControl>
+                      </Stack>
+                      <Stack spacing={2}>
+                        <Stack
+                          direction={{ base: "column", sm: "row" }}
+                          align={"start"}
+                          justify={"space-between"}
+                        ></Stack>
+                        <Link
+                          color={"blue.400"}
+                          href="/register"
+                        >
+                          Dont have account?
+                        </Link>
+                        <Link
+                          color={"blue.400"}
+                          href="/verifyResetPassword"
+                        >
+                          Reset Password?
+                        </Link>
+                      </Stack>
+                      <Button
+                        bg={"yellow.400"}
+                        color={"black"}
+                        _hover={{
+                          bg: "yellow.300",
+                        }}
+                        onClick={onLogin}
+                        type="submit"
+                      >
+                        Sign in
+                      </Button>
+                      {/* <Button isLoading bg={"blue.300"} color={"white"} /> */}
+                    </Stack>
+                  </Form>
+                </Box>
+              </Stack>
+            </Flex>
+          );
+        }}
+      </Formik>
+    </>
   );
 };

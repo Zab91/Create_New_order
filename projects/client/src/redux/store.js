@@ -3,7 +3,6 @@ import userSlice from "./userSlice";
 import productSlice from "./productSlice";
 import cartSlice from "./cartSlice";
 import loanSlice from "./loanSlice";
-import adminSlice from "./adminSlice";
 import addressSlice from "./addressSlice";
 
 export const store = configureStore({
@@ -11,7 +10,6 @@ export const store = configureStore({
     userSlice,
     productSlice,
     cartSlice,
-    adminSlice,
     loanSlice,
     addressSlice,
   },

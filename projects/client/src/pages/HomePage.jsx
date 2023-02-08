@@ -14,30 +14,17 @@ export default function HomePage() {
     borderBottomLeftRadius: "25px",
     borderBottomRightRadius: "25px",
   };
-  const myStyle = {
-    maxWidth: "506px",
-    heigth: "auto",
-    backgroundColor: "white",
-    margin: "auto",
-  };
-  const bodyStyle = {
-    backgroundColor: "grey",
-    width: "auto",
-    height: "auto",
-  };
 
   return (
-    <div style={bodyStyle}>
-      <div style={myStyle}>
-        <div style={header}>
-          <Search />
-          <HomeComp />
-        </div>
-        <Kategori />
-        <Product />
-        <Footer />
-        <Navbar />
+    <div>
+      <div style={header}>
+        <Search />
+        <HomeComp />
       </div>
+      <Kategori />
+      <Product />
+      <Footer />
+      <Navbar />
     </div>
   );
 }

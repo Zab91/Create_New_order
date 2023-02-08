@@ -16,8 +16,8 @@ const {
   userRoutes,
   userRoutesAdmin,
   productRoutes,
-  userRoutesBranch,
   addressRoutes,
+  orderCart,
 } = require("../routers");
 
 const PORT = process.env.PORT || 8000;
@@ -41,11 +41,11 @@ app.use(bearerToken());
 
 // user Router
 app.use("/usersLogin", userRoutesLogin);
-app.use("/admin", userRoutesAdmin);
+app.use("/adminLogin", userRoutesAdmin);
 app.use("/product", productRoutes);
 app.use("/cart", cartRoutes);
-app.use("/branch", userRoutesBranch);
 app.use("/address", addressRoutes);
+app.use("/orderCart", orderCart);
 
 app.get("/api", (req, res) => {
   res.send(`Hello, this is my API`);

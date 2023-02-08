@@ -4,15 +4,12 @@ import {
   Text,
   Stack,
   RadioGroup,
-  Divider,
-  Heading,
-  Input,
-  Button,
   CheckboxGroup,
   Checkbox,
   Radio,
-  Select,
-  FormControl,
+  Divider,
+  Input,
+  Button,
   Image,
   Icon,
   TableContainer,
@@ -21,16 +18,20 @@ import {
   Tr,
   Th,
   Tbody,
+  Heading,
   Td,
+  Select,
+  FormControl,
+  FormLabel,
 } from "@chakra-ui/react";
+import { ChevronDownIcon } from "@chakra-ui/icons";
 import { FaTrashAlt } from "react-icons/fa";
 import axios from "axios";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import Swal from "sweetalert2";
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 import { Navigate } from "react-router-dom";
-import { useParams } from "react-router-dom";
 import { useState } from "react";
 import { syncAddress } from "../redux/addressSlice";
 import { cartSync, cartQty } from "../redux/cartSlice";
@@ -39,72 +40,23 @@ import { deleteCart } from "../redux/userSlice";
 export default function CartDetail() {
   const {
     name,
-    // cart,
-    // id: userId,
+    cart,
+    id: userId,
     id,
-    phone_number,
   } = useSelector(state => state.userSlice.value);
-  const userId = id;
   const { data } = useSelector(state => state.addressSlice.value);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const params = useParams();
-
-  console.log("address", data);
-
-  const data4 = useSelector(state => state.cartSlice.value);
+  const data2 = useSelector(state => state.cartSlice.value);
+  console.log(data2);
 
   const [desId, setDesId] = useState();
   const [value, setValue] = useState("");
   const [ongkir, setOngkir] = useState();
-  const [total, setTotal] = useState();
   const [getOngkir, setGetOngkir] = useState();
-  const [data3, setData3] = useState([]);
-  const [data2, setData2] = useState([]);
-  const [addressAll, setAddressAll] = useState();
-  const [qty, setQty] = useState();
-  const [move, setMove] = useState(false);
-  console.log("cart", data2);
+
   console.log(value);
-
-  //useRef
-  const inputTotal = useRef("");
-  const inputQuantity = useRef("");
-  const inputCourier = useRef("");
-  const inputAddressRec = useRef("");
-
-  const getQuantity = async () => {
-    try {
-      const kart = await axios.get(`http://localhost:8000/cart/${userId}`);
-      setData3(kart.data);
-      setQty(kart.data.reduce((a, b) => a.quantity + b.quantity));
-    } catch (err) {
-      console.log(err);
-    }
-  };
-  const getData = async () => {
-    try {
-      const cart = await axios.get(`http://localhost:8000/cart/${userId}`);
-      setData2(cart.data);
-      setTotal(
-        cart.data.reduce(
-          (a, b) => a.quantity * a.Product.price + b.quantity * b.Product.price,
-        ),
-      );
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
-  console.log("quantity", qty);
-
-  useEffect(() => {
-    getQuantity();
-  }, [id]);
-
-  useEffect(() => {
-    getData();
-  }, [id]);
 
   const onDeleteCart = async id => {
     try {
@@ -136,15 +88,11 @@ export default function CartDetail() {
     }
   };
 
-  const totalOrder = total + getOngkir;
-
-  console.log("Total Harga", totalOrder);
-
   const orderCart = async () => {
     try {
       //value starter jne, pos, tiki
       const courier = value;
-      const weight = 1000;
+      const weight = 1700;
       const destination = desId;
       const origin = 22;
       const order = { origin, destination, weight, courier };
@@ -161,8 +109,9 @@ export default function CartDetail() {
   };
 
   const ongkirMap = ongkir?.map(val => {
+    console.log(val.cost);
     return (
-      <option value={val.cost[0].value}>
+      <option>
         {val.service +
           " Harga Ongkir :" +
           " " +
@@ -173,58 +122,13 @@ export default function CartDetail() {
     );
   });
 
-  const handleOngkir = ({ target }) => {
-    const { value } = target;
-    const addres = data?.filter(item => item.cityId === desId);
-    const city1 = addres[0].city;
-    const addressLine = addres[0].addressFill;
-    const district1 = addres[0].district;
-    const province1 = addres[0].province;
-    const addressFull =
-      addressLine + " " + district1 + " " + city1 + " " + province1;
-    console.log(addressAll);
-
-    setAddressAll(addressFull);
-    setGetOngkir(+value);
-  };
-
-  console.log("value ongkir", getOngkir);
-  console.log("cart redux", data4);
-  console.log("no telp", phone_number);
-
-  const orderPayment = async () => {
-    try {
-      const addOrder = {
-        total_price: totalOrder,
-        quantity: qty,
-        addressReceiver: addressAll,
-        courier: value,
-        data4,
-        UserId: id,
-        phoneNumUser: phone_number,
-      };
-      const res2 = await axios.post(
-        `http://localhost:8000/orderCart/createOrder`,
-        addOrder,
-      );
-      Swal.fire({
-        icon: "success",
-        title: "Berhasil",
-        text: "Silahkan Upload Pembayaran",
-        timer: 4000,
-      });
-      setMove(true);
-    } catch (err) {
-      console.log(err);
-    }
-  };
+  console.log(ongkirMap);
 
   const getAddress = async () => {
     try {
       const result = await axios.get(
         `http://localhost:8000/address/addressById/${id}`,
       );
-      console.log(id);
       console.log("cek setAddress", result.data);
       dispatch(syncAddress(result.data));
       console.log(syncAddress(result.data));
@@ -233,27 +137,34 @@ export default function CartDetail() {
     }
   };
 
+  // const rendOngkir = () => {
+  //   return Array.from(ongkir).map((val, i) => {
+  //     return (
+  //       <option
+  //         value={val.service}
+  //         key={i}
+  //       >
+  //         {val.service + " "} {val.cost}
+  //       </option>
+  //     );
+  //   });
+  // };
+
   console.log(desId);
 
   useEffect(() => {
     getAddress();
   }, [id]);
 
-  return move ? (
-    <Navigate
-      to="/payment"
-      replace={true}
-    />
-  ) : (
+  return (
     <>
       <Flex
-        minH={"120vh"}
+        minH={"100vh"}
         algin={"center"}
         justify={"center"}
         bg="#fff"
         maxWidth={"506px"}
         overflow={"scroll"}
-        // marginBottom={"full"}
       >
         <Stack
           spacing={4}
@@ -397,19 +308,14 @@ export default function CartDetail() {
               </TableContainer>
             )}
           </Box>
-          <Text>Total Harga : {totalOrder}</Text>
           <br></br>
           <Heading
-            fontWeight="bold"
-            fontSize={"18pt"}
+            fontStyle={"bold"}
+            fontSize="18px"
           >
             <Text align={"left"}>Pilih Alamat</Text>
           </Heading>
-          <Stack
-            align={"left"}
-            overflowY={"scroll"}
-            maxH={"506px"}
-          >
+          <Stack align={"left"}>
             {data?.map(item => {
               return (
                 <>
@@ -466,14 +372,29 @@ export default function CartDetail() {
               <Radio value={"pos"}>pos indonesia</Radio>
             </RadioGroup>
           </FormControl>
-          <Select onChange={handleOngkir}>{ongkirMap} </Select>
+          {/* {ongkir?.map(item => {
+            return (
+              <>
+                <RadioGroup>
+                  <Radio
+                  value={ongkir}
+                  onChange={e => setGetOngkir(e.target.value)}
+                  >
+                    {ongkir}
+                  </Radio>
+                </RadioGroup>
+              </>
+            );
+          })} */}
+          {/* <Button onClick={() => orderCart()}>Paket Ongkir</Button> */}
+          <Select>{ongkirMap} </Select>
           <Box
             mt="10px"
             display="flex"
             justifyContent="flex-end"
           >
             <Button
-              onClick={() => orderPayment()}
+              // onClick={() => orderCart()}
               w="full"
               borderColor="yellow.400"
               borderRadius="9px"

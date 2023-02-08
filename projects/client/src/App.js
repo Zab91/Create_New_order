@@ -6,7 +6,6 @@ import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { cartSync } from "./redux/cartSlice";
 import { login } from "./redux/userSlice";
-import { loginAdmin } from "./redux/adminSlice";
 
 //Component and Pages
 import HomePage from "./pages/HomePage";
@@ -17,16 +16,13 @@ import Register from "./components/register";
 import DetailPage from "./pages/DetailPage";
 import NotFound from "./components/404";
 import Search from "./components/search";
-import CartPage from "./pages/cartPage";
-import { LoginAdmin } from "./pages/LoginAdmin";
-import { AdminPage } from "./pages/AdminPage";
+import CartDetail from "./components/CartComp";
 import { ListAddressUser } from "./components/listAddressUser";
 import { AddAddress } from "./components/addAddress";
 import { UpdateAddress } from "./components/updateAddress";
+import SelectAddress from "./components/addressSelect";
 import SendEmailPassword from "./pages/SendEmailPage";
 import ResetPassword from "./pages/ResetPassword";
-import PaymentMethod from "./components/payment";
-import TransactionList from "./components/listOrder";
 
 //keeplogin url
 const urlKeepLogin = `http://localhost:8000/usersLogin/keepLogin`;
@@ -35,9 +31,6 @@ function App() {
   //keeplogin token
   const dispatch = useDispatch();
   const token = localStorage.getItem("token");
-  const tokenAdmin = localStorage.getItem("tokenAdmin");
-  const tokenBranch = localStorage.getItem("tokenBranch");
-
   // console.log(token)
 
   //Function keeplogin
@@ -59,51 +52,8 @@ function App() {
     }
   };
 
-  // useEffect(() => {
-  //   keepLogin();
-  // }, []);
-
-  const keepLoginAdmin = async () => {
-    try {
-      const res = await axios.get(`http://localhost:8000/admin/keepLogin`, {
-        headers: {
-          Authorization: `Bearer ${tokenAdmin}`,
-        },
-      });
-      console.log(res.data);
-      dispatch(loginAdmin(res.data));
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
-  const keepLoginBranch = async () => {
-    try {
-      const resBranch = await axios.get(
-        `http://localhost:8000/admin/keepLogin`,
-        {
-          headers: {
-            Authorization: `Bearer ${tokenBranch}`,
-          },
-        },
-      );
-      console.log(resBranch.data);
-      dispatch(loginAdmin(resBranch.data));
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
   useEffect(() => {
-    token ? keepLogin() : console.log("Check Database");
-  }, []);
-
-  useEffect(() => {
-    tokenAdmin ? keepLoginAdmin() : console.log("Check Database");
-  }, []);
-
-  useEffect(() => {
-    tokenBranch ? keepLoginBranch() : console.log("Check Database");
+    keepLogin();
   }, []);
 
   const [location, setLocation] = useState({
@@ -159,12 +109,8 @@ function App() {
       <div style={myStyle}>
         <Routes>
           <Route
-            path="/dashboard"
-            element={
-              <>
-                <AdminPage />
-              </>
-            }
+            path="/selectAddress"
+            element={<SelectAddress />}
           />
           <Route
             path="/profile"
@@ -179,32 +125,10 @@ function App() {
             element={<ChangePassword />}
           />
           <Route
-            path="/loginAdmin"
-            element={<LoginAdmin />}
-          />
-
-          <Route
             path="/cart"
             element={
               <>
-                <CartPage />
-              </>
-            }
-          />
-          <Route
-            path="/payment"
-            element={
-              <>
-                <PaymentMethod />
-                <Navbar />
-              </>
-            }
-          />
-          <Route
-            path="/listTransaction"
-            element={
-              <>
-                <TransactionList />
+                <CartDetail />
                 <Navbar />
               </>
             }
@@ -298,9 +222,7 @@ function App() {
             }
           />
         </Routes>
-        //{" "}
       </div>
-      //{" "}
     </div>
   );
 }

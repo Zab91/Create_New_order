@@ -7,6 +7,7 @@ import {
   useColorModeValue,
   VisuallyHidden,
   Image,
+  Link,
   MenuButton,
   MenuList,
   MenuItem,
@@ -15,18 +16,16 @@ import {
   Badge,
   IconButton,
 } from "@chakra-ui/react";
-import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHouse } from "@fortawesome/free-solid-svg-icons";
 import pesanan from "../assets/pesanan.svg";
 import keranjang from "../assets/keranjang.svg";
 import user from "../assets/user.svg";
-import TransactionList from "./listOrder";
 import { useSelector, useDispatch } from "react-redux";
 import { logout } from "../redux/userSlice";
 import { cartDel } from "../redux/cartSlice";
+import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
-import { Link } from "react-router-dom";
 
 const SocialButton = ({ children, label, href }) => {
   return (
@@ -40,7 +39,6 @@ const SocialButton = ({ children, label, href }) => {
       alignItems={"center"}
       justifyContent={"center"}
       transition={"background 0.3s ease"}
-      onClick={onclick}
       // _hover={{
       //   bg: useColorModeValue("blackAlpha.200", "whiteAlpha.200"),
       // }}
@@ -174,13 +172,11 @@ export default function Navbar() {
                     label={"Akun"}
                     href={"/login"}
                   >
-                    <Box textAlign={"center"}>
-                      <Image
-                        src={user}
-                        margin="auto"
-                      />
-                      <Text>Akun</Text>
-                    </Box>
+                    <Image
+                      src={user}
+                      margin="auto"
+                    />
+                    <Text>Akun</Text>
                   </SocialButton>
                 </>
               )}
